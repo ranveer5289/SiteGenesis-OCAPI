@@ -46,7 +46,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
       <div class="container">
          <div class="header-top">
       		 <div class="logo">
-				<a href="index.html"><img src="images/logo.png" alt=""/></a>
+				<a href="#"><img src="{{catBannerImageSrc}}" alt=""/></a>
 			 </div>
 		   <div class="header_right">
 			<div class="clearfix"></div>
@@ -61,66 +61,18 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 			<div class="row">
 				<div class="col-md-3">
 					<div class="menu_box">
-				   	  	<h3 class="menu_head">Menu</h3>
+				   	  	<h3 class="menu_head"><a id="category_nav" href="/SearchShow?cgid={{parentCategoryId}}">Menu</a></h3>
 				   	     <ul class="nav">
-							{% for id in categories %}
-  								<li{% if id == selectedCategory %} class="selected"{% endif %}>
-    								<a id="category_nav" href="/SearchShow?cgid={{id}}">{{id}}</a>
-
-
+							{% for category in categories %}
+  								<li{% if category.id == selectedCategory %} class="selected"{% endif %}>
+    								<a id="category_nav" href="/SearchShow?cgid={{category.id}}">{{category.name}}</a>
   								</li>
 							{% endfor %}
 					   	 </ul>
 			   	    </div>
-			   	    <div class="side_banner">
-					   <div class="banner_img"><img src="images/pic9.jpg" class="img-responsive" alt=""/></div>
-					   <div class="banner_holder">
-						  <h3>Now <br> is <br> Open!</h3>
-					   </div>
-				    </div>
-				    <div class="tags">
-				    	<h4 class="tag_head">Tags Widget</h4>
-				         <ul class="tags_links">
-							<li><a href="#">Kitesurf</a></li>
-							<li><a href="#">Super</a></li>
-							<li><a href="#">Duper</a></li>
-							<li><a href="#">Theme</a></li>
-							<li><a href="#">Men</a></li>
-							<li><a href="#">Women</a></li>
-							<li><a href="#">Equipment</a></li>
-							<li><a href="#">Best</a></li>
-							<li><a href="#">Accessories</a></li>
-							<li><a href="#">Men</a></li>
-							<li><a href="#">Apparel</a></li>
-							<li><a href="#">Super</a></li>
-							<li><a href="#">Duper</a></li>
-							<li><a href="#">Theme</a></li>
-							<li><a href="#">Responsiv</a></li>
-					        <li><a href="#">Women</a></li>
-							<li><a href="#">Equipment</a></li>
-						</ul>
-						<a href="#" class="link1">View all tags</a>
-				     </div>
-				     <div class="tags">
-				      	<h4 class="tag_head">Articles Experts</h4>
-				      	 <ul class="article_links">
-							<li><a href="#">Eleifend option congue nihil</a></li>
-							<li><a href="#">Investigationes demonst</a></li>
-							<li><a href="#">Qui sequitur mutationem</a></li>
-							<li><a href="#">videntur parum clar sollemnes</a></li>
-							<li><a href="#">ullamcorper suscipit lobortis</a></li>
-							<li><a href="#">commodo consequat. Duis autem</a></li>
-							<li><a href="#">Investigationes demonst</a></li>
-							<li><a href="#">ullamcorper suscipit lobortis</a></li>
-							<li><a href="#">Qui sequitur mutationem</a></li>
-							<li><a href="#">videntur parum clar sollemnes</a></li>
-							<li><a href="#">ullamcorper suscipit lobortis</a></li>
-						  </ul>
-						 <a href="#" class="link1">View all</a>
-				      </div>
 				</div>
 			   <div class="col-md-9">
-				<h3 class="m_1">{{selectedCategory}}</h3>
+				<h3 class="m_1">{{selectedCategoryName}}</h3>
 				 <div class="content_grid">
 				 	{% include "./producthit.html" %}
 				</div>

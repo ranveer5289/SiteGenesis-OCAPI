@@ -1,21 +1,51 @@
-var category_url = "http://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/categories/root?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json"
+var category_url = "http://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/categories/%s?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json"
 var product_search_url = "http://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/product_search?refine=cgid=%s&expand=prices,images&client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json"
 var request = require("request");
 var util = require('util');
 
 
-exports.getOnlineCategories = function(callback) {
-	request(category_url, function(error, response, body) {
+exports.getOnlineCategories = function(cgid, callback) {
+
+    var searchShowUrl = util.format(category_url, cgid);
+    console.log('searchShowUrl ' + searchShowUrl);
+
+
+	request(searchShowUrl, function(error, response, body) {
   		if (body) {
   			var responseBody = JSON.parse(body);
   			var categories = [];
+
   			for (index in responseBody.categories){
-  				var categoryId = responseBody['categories'][index].id;
-                categories.push(categoryId);
+                var category = {};
+                category['id'] = responseBody['categories'][index].id;
+                category['name'] = responseBody['categories'][index].name;
+                categories.push(category)
   			}
+
   		    callback(categories);
   		}
 	});
+};
+
+exports.getCategoryObject = function(cgid, callback) {
+
+    var searchShowUrl = util.format(category_url, cgid);
+
+    request(searchShowUrl, function(error, response, body) {
+        if (body) {
+            var responseBody = JSON.parse(body);
+            var category = {};
+            category['id'] = responseBody.id;
+            category['name'] = responseBody.name;
+            category['parentCategoryId'] = responseBody.parent_category_id;
+            if ('image' in responseBody) {
+                category['catBannerImageSrc'] = responseBody.image;
+            } else {
+                category['catBannerImageSrc'] = responseBody.c_slotBannerImage;
+            }
+            callback(category);
+        }
+    });
 };
 
 exports.getProductsAssignedToCategory = function(cgid, callback) {

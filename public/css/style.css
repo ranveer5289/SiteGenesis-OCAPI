@@ -503,6 +503,9 @@ h3.menu_head{
 	font-size: 0.85em;
 	margin: 0;
 }
+h3.menu_head a#category_nav {
+    color: white;
+}
 ul.nav{
 	padding:14px 0;
 	list-style:none;

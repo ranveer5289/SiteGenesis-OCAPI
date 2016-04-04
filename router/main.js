@@ -4,8 +4,8 @@ var category = require("./../helpers/category.js");
 module.exports = function(app)
 {
      app.get('/',function(req,res){
-     	category.getOnlineCategories(function(categories){
-     		console.log(categories);
+     	category.getOnlineCategories('root', function(categories){
+     		//console.log(categories);
             req.session.categories = categories;
 			res.render('index', {
 	    		'categories': categories
@@ -21,14 +21,28 @@ module.exports = function(app)
 
         var cgid =  req.query.cgid;
         console.log("cgid: " + cgid);
-        category.getProductsAssignedToCategory(cgid, function(productHits){
-            var categories = (req.session.categories.toString()).split(',');
-            res.render('index', {
-                'categories': categories,
-                'products' : productHits,
-                'selectedCategory': cgid
-            });
+        category.getOnlineCategories(cgid, function(categories){
+            category.getCategoryObject(cgid, function(categoryObject){
 
+                category.getProductsAssignedToCategory(cgid, function(productHits){
+                    if (categories.length > 0) {
+                        var categoriesFound =  categories;
+                        req.session.categories = categoriesFound;
+                    } else { //Handle case when end of category level is reached
+                        var categoriesFound =  req.session.categories;
+                    }
+
+                    res.render('index', {
+                        'categories': categoriesFound,
+                        'products' : productHits,
+                        'selectedCategory': cgid,
+                        'selectedCategoryName' : categoryObject['name'],
+                        'parentCategoryId' : categoryObject['parentCategoryId'],
+                        'catBannerImageSrc' : categoryObject['catBannerImageSrc']
+                    });
+
+                });
+            })
         });
     });
 }
