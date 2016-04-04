@@ -1,2 +1,2 @@
 # SiteGenesis-OCAPI
-SiteGenesis using OCAPI and ExpressJs framework
+Demandware SiteGenesis using OCAPI and ExpressJs framework
