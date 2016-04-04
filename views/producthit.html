@@ -1,20 +1,21 @@
-                   <div class="col_1_of_3 span_1_of_3">
-                   {% for product in products %}
-                         <div class="view view-first">
-                              <a href="{{product.link}}">
-                               <div class="inner_content clearfix">
-                                <div class="product_image">
-                                    <img src="{{product.imageSrc}}" class="img-responsive" alt=""/>
-                                    <div class="product_container">
-                                       <div class="cart-left">
-                                         <p class="title">{{product.name}}</p>
-                                       </div>
-                                       <div class="price">{{product.price}}</div>
-                                       <div class="clearfix"></div>
-                                     </div>
-                                </div>
-                               </div>
-                             </a>
-                           </div>
-                    {% endfor %}
-                    </div>
+{% for product in products %}
+    <div class="col_1_of_3 span_1_of_3">
+         <div class="view view-first">
+              <a href="{{product.link}}">
+               <div class="inner_content clearfix">
+                <div class="product_image">
+                    <img src="{{product.imageSrc}}" class="img-responsive" alt=""/>
+                    <div class="product_container">
+                       <div class="cart-left">
+                         <p class="title">{{product.name}}</p>
+                       </div>
+                       <div class="price">{{product.price}}</div>
+                       <div class="clearfix"></div>
+                     </div>
+                </div>
+               </div>
+             </a>
+           </div>
+    </div>
+{% endfor %}
+

@@ -11,7 +11,7 @@ p {margin: 0;}
 html, body{
    font-family: 'Raleway', sans-serif;
    font-size: 100%;
-   background:#f8f8f8; 
+   background:#f8f8f8;
 }
 body a{
 	transition:0.5s all;
@@ -229,7 +229,7 @@ ul.quick_access li.check{
 	position: relative;
 }
 .search input[type="text"] {
-	
+
 	padding: 8px 10px;
 	outline: none;
 	color:#000;
@@ -399,7 +399,7 @@ ul.quick_access li.check{
 	height: 100%;
 	opacity: 0;
 }
-/* SELECTED FEEDBACK ITEM */ 
+/* SELECTED FEEDBACK ITEM */
 .dropdown .selected,
 .dropdown li{
 	display: block;
@@ -519,6 +519,10 @@ ul.nav li a{
 	font-weight:bold;
 	display: block;
 	 padding:10px 15px 10px 40px;
+}
+ul.nav li.selected a {
+    background: black;
+    color: white;
 }
 ul.nav li a:hover{
 	color:#fff;
@@ -818,16 +822,16 @@ h3.m_2 {
 .brands{
 	padding:2em;
 	background:#fff;
-}			
+}
 ul.brand_icons{
 	padding:0;
 	list-style:none;
-}	
+}
 ul.brand_icons li{
 	width:12.5%;
 	display: inline-block;
 	margin-right: 1em;
-}		
+}
 ul.brand_icons li.last{
 	margin:0;
 }
@@ -838,7 +842,7 @@ ul.brand_icons li.last{
 ul.instagram_grid{
 	padding:0;
 	list-style:none;
-}	
+}
 ul.instagram_grid li{
 	width: 15.936%;
 	float: left;
@@ -849,7 +853,7 @@ ul.instagram_grid li img{
 }
 ul.instagram_grid li.last_instagram{
 	margin:0;
-}			
+}
 i.insta_icon{
 	width: 35px;
 	height: 35px;
@@ -994,7 +998,7 @@ p.email span{
 	cursor:pointer;
 }
 p.email span:hover{
-	text-decoration:underline; 
+	text-decoration:underline;
 }
 .footer_bottom{
 	background:#333;
@@ -1548,7 +1552,7 @@ p.comment-form-author {
 	-o-transition: 0.2s;
 }
 .contact-form input[type="submit"]:hover{
-	background:#26d2fc;	
+	background:#26d2fc;
 }
 .map{
 	position:relative;

@@ -64,7 +64,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				   	  	<h3 class="menu_head">Menu</h3>
 				   	     <ul class="nav">
 							{% for id in categories %}
-  								<li{% if loop.first %} class="first"{% endif %}>
+  								<li{% if id == selectedCategory %} class="selected"{% endif %}>
     								<a id="category_nav" href="/SearchShow?cgid={{id}}">{{id}}</a>
 
 
@@ -120,7 +120,7 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				      </div>
 				</div>
 			   <div class="col-md-9">
-				<h3 class="m_1">New Products</h3>
+				<h3 class="m_1">{{selectedCategory}}</h3>
 				 <div class="content_grid">
 				 	{% include "./producthit.html" %}
 				</div>

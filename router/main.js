@@ -25,7 +25,8 @@ module.exports = function(app)
             var categories = (req.session.categories.toString()).split(',');
             res.render('index', {
                 'categories': categories,
-                'products' : productHits
+                'products' : productHits,
+                'selectedCategory': cgid
             });
 
         });
