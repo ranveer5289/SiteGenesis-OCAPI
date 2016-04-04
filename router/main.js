@@ -6,6 +6,7 @@ module.exports = function(app)
      app.get('/',function(req,res){
      	category.getOnlineCategories(function(categories){
      		console.log(categories);
+            req.session.categories = categories;
 			res.render('index', {
 	    		'categories': categories
 			});
@@ -16,6 +17,17 @@ module.exports = function(app)
     });
 
     app.get('/SearchShow', function(req, res){
-        console.log(req.query);
+
+
+        var cgid =  req.query.cgid;
+        console.log("cgid: " + cgid);
+        category.getProductsAssignedToCategory(cgid, function(productHits){
+            var categories = (req.session.categories.toString()).split(',');
+            res.render('index', {
+                'categories': categories,
+                'products' : productHits
+            });
+
+        });
     });
 }

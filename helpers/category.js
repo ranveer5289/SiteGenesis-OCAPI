@@ -19,8 +19,10 @@ exports.getOnlineCategories = function(callback) {
 };
 
 exports.getProductsAssignedToCategory = function(cgid, callback) {
-    product_search_url = util.format(product_search_url, cgid);
-    request(product_search_url, function(error, response, body) {
+
+    var searchShowUrl = util.format(product_search_url, cgid);
+
+    request(searchShowUrl, function(error, response, body) {
         if (body) {
             var responseBody = JSON.parse(body);
             var productHits = [];
