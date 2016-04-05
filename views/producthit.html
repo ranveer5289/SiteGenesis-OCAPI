@@ -1,7 +1,7 @@
 {% for product in products %}
     <div class="col_1_of_3 span_1_of_3">
          <div class="view view-first">
-              <a href="{{product.link}}">
+              <a href="/ProductShow?pid={{product.id}}">
                <div class="inner_content clearfix">
                 <div class="product_image">
                     <img src="{{product.imageSrc}}" class="img-responsive" alt=""/>
