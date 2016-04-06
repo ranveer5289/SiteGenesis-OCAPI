@@ -50,9 +50,14 @@ module.exports = function(app)
         console.log("pid " + pid);
 
         Promise.all([category.getOnlineCategories('root'), product.getProductObject(pid)])
-            .spread(function(categories, product){
+            .spread(function(categories, productObject){
+
+                var variantsArray = product.getVariantValues(productObject[1]);
+
                 res.render('single', {
-                    'product' : product,
+                    'product' : productObject[0],
+                    'colorVariants' : variantsArray[2],
+                    'sizeVariants' : variantsArray[1],
                     'categories' : categories
                 });
             }).catch(function(error){

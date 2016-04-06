@@ -143,33 +143,27 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                     <!-- end product_slider -->
               </div>
               <div class="cont1 span_2_of_a1">
-                <h1>Peeky Cropped</h1>
-                <ul class="rating">
-                   <li><a class="product-rate" href="#"> <label> </label></a> <span> </span></li>
-                   <li><a href="#">1 Review(s) Add Review</a></li>
-                   <div class="clearfix"></div>
-                </ul>
+                <h1>{{product.name}}</h1>
                 <div class="price_single">
-                  <span class="actual">{{product.price}}</span><a href="#">click for offer</a>
+                  <span class="actual">{{product.price}} {{product.currency}}</span>
                 </div>
                 <h2 class="quick">Quick Overview:</h2>
                 <p class="quick_desc"> {{product.shortDescription}}</p>
                 <ul class="size">
-                    <h3>Size</h3>
-                    <li><a href="#">25</a></li>
-                    <li><a href="#">26</a></li>
-                    <li><a href="#">27</a></li>
-                    <li><a href="#">28</a></li>
-                    <li><a href="#">29</a></li>
-                    <li><a href="#">30</a></li>
-                    <li><a href="#">31</a></li>
-                    <li><a href="#">32</a></li>
-                    <li><a href="#">33</a></li>
+                    {% if sizeVariants.length > 0 %}
+                        <h3>Size</h3>
+                        {% for index in sizeVariants %}
+                            <li><a href="#">{{index}}</a></li>
+                        {%  endfor %}
+                    {% endif %}
                 </ul>
                 <ul class="size">
-                    <h3>Length</h3>
-                    <li><a href="#">32</a></li>
-                    <li><a href="#">34</a></li>
+                    {% if colorVariants.length > 0 %}
+                        <h3>Color</h3>
+                        {% for index in colorVariants %}
+                            <li><a href="#">{{index}}</a></li>
+                        {%  endfor %}
+                    {% endif %}
                 </ul>
                 <ul class="product-qty">
                    <span>Quantity:</span>
