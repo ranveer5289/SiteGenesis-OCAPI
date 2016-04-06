@@ -53,12 +53,14 @@ module.exports = function(app)
             .spread(function(categories, productObject){
 
                 var variantsArray = product.getVariantValues(productObject[1]);
+                var imageObject = product.getProductImages(productObject[0]);
 
                 res.render('single', {
                     'product' : productObject[0],
                     'colorVariants' : variantsArray[2],
                     'sizeVariants' : variantsArray[1],
-                    'categories' : categories
+                    'categories' : categories,
+                    'images' : imageObject
                 });
             }).catch(function(error){
                     console.log(error);

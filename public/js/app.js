@@ -1,30 +1,19 @@
 $(function(){
 
-    /*$('#category_nav').click(function(e){
-        e.preventDefault();
-        var obj = {};
-        obj.cgid = $(this).attr("href");
-        $.ajax({
-            type : 'GET',
-            contentType: 'application/json',
-            dataType : 'json',
-            data: obj,
-            url : '/SearchShow',
-            success : function(data) {
-                console.log(data);
-
-                var templates = {};
-                $("script[type='text/tmpl']").each(function(idx,el) {
-                    templates[$(el).attr("data-name")] = swig.compile(el.text, { filename: $(el).attr("data-name") });
-                    $(el).remove();
-                });
-
-                templates.producthit(data);
-
-            },
-            error : function(){
-                console.log("error");
-            }
+    $('ul.#variant-size a').click(function(){
+        $(this).addClass("selected").css({
+                "border-color": "red",
+                "border-width":"1px",
+                "border-style":"solid"
         });
-    });*/
+    });
+
+    $('ul.#variant-color a').click(function(){
+        $(this).addClass("selected").css({
+                "border-color": "red",
+                "border-width":"1px",
+                "border-style":"solid"
+        });
+    });
 });
+

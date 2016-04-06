@@ -32,7 +32,7 @@ exports.getOnlineCategories = function(cgid) {
     });
 };
 
-exports.getCategoryObject = function(cgid, callback) {
+exports.getCategoryObject = function(cgid) {
 
     var searchShowUrl = util.format(category_url, cgid);
 
@@ -58,7 +58,7 @@ exports.getCategoryObject = function(cgid, callback) {
 
 };
 
-exports.getProductsAssignedToCategory = function(cgid, callback) {
+exports.getProductsAssignedToCategory = function(cgid) {
 
     var searchShowUrl = util.format(product_search_url, cgid);
     console.log(searchShowUrl);
@@ -75,6 +75,7 @@ exports.getProductsAssignedToCategory = function(cgid, callback) {
                     product['id'] = productHitObj.product_id;
                     product['price'] = productHitObj.price;
                     product['name'] = productHitObj.product_name;
+                    product['currency'] = productHitObj.currency;
                     if ('link' in productHitObj.image)  {
                         product['imageSrc'] = productHitObj.image.link;
                     }
