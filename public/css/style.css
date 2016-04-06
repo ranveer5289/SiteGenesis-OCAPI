@@ -1247,6 +1247,9 @@ ul.size{
 	list-style:none;
 	margin-top:2em;
 }
+ul.size a.js_selected{
+    border: 1px solid red;
+}
 ul.size h3{
 	color: #555;
 	font-size: 0.85em;
@@ -2292,5 +2295,4 @@ h3.like, h3.recent {
 }
 .logo {
 	margin-left: 0em;
-}
 }

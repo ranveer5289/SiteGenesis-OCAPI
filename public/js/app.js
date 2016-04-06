@@ -1,19 +1,21 @@
 $(function(){
 
     $('ul.#variant-size a').click(function(){
-        $(this).addClass("selected").css({
-                "border-color": "red",
-                "border-width":"1px",
-                "border-style":"solid"
-        });
+        clearVariantSelection('ul.#variant-size a');
+        $(this).addClass('js_selected');
     });
 
     $('ul.#variant-color a').click(function(){
-        $(this).addClass("selected").css({
-                "border-color": "red",
-                "border-width":"1px",
-                "border-style":"solid"
-        });
+        clearVariantSelection('ul.#variant-color a');
+        $(this).addClass('js_selected');
     });
 });
 
+function clearVariantSelection(selector) {
+    $(selector).each(function(){
+        console.log($(this));
+        if ($(this).hasClass('js_selected')) {
+            $(this).removeClass('js_selected');
+        }
+    })
+}
