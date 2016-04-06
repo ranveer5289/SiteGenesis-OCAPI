@@ -41,24 +41,23 @@ exports.getVariantValues = function(variantObject) {
     var colorVariantValues = [];
     var sizeVariantValues = [];
     var variantValues = [];
-    var varian
 
     for(index in variantObject) {
         var variantValue = {},
             variationValues = variantObject[index].variation_values,
             variantId = variantObject[index].product_id;
 
-        variantValue[variantId] = {};
+        variantValue['variantId'] = variantId;
 
         if (variationValues.hasOwnProperty('color')) {
-            variantValue[variantId]['color'] = variationValues['color'];
+            variantValue['color'] = variationValues['color'];
             if (colorVariantValues.indexOf(variationValues['color']) < 0) {
                 colorVariantValues.push(variationValues['color']);
             }
 
         }
         if (variationValues.hasOwnProperty('size')) {
-            variantValue[variantId]['size'] = variationValues['size'];
+            variantValue['size'] = variationValues['size'];
             if (sizeVariantValues.indexOf(variationValues['size']) < 0) {
                 sizeVariantValues.push(variationValues['size']);
             }

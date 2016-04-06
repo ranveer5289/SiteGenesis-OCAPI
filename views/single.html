@@ -135,8 +135,8 @@ License URL: http://creativecommons.org/licenses/by/3.0/
                 <ul class="size" id="variant-size">
                     {% if sizeVariants.length > 0 %}
                         <h3>Size</h3>
-                        {% for index in sizeVariants %}
-                            <li><a href="javascript:void(0)">{{index}}</a></li>
+                        {% for index, sizeVariant in sizeVariants %}
+                            <li><a href="javascript:void(0)" data-pid="{{variants[index]['variantId']}}">{{sizeVariant}}</a></li>
                         {%  endfor %}
                     {% endif %}
                 </ul>

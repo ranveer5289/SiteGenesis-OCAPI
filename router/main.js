@@ -60,7 +60,8 @@ module.exports = function(app)
                     'colorVariants' : variantsArray[2],
                     'sizeVariants' : variantsArray[1],
                     'categories' : categories,
-                    'images' : imageObject
+                    'images' : imageObject,
+                    'variants' : variantsArray[0]
                 });
             }).catch(function(error){
                     console.log(error);

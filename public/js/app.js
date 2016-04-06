@@ -13,7 +13,6 @@ $(function(){
 
 function clearVariantSelection(selector) {
     $(selector).each(function(){
-        console.log($(this));
         if ($(this).hasClass('js_selected')) {
             $(this).removeClass('js_selected');
         }
