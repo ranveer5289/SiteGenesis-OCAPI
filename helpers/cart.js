@@ -1,4 +1,5 @@
 var create_basket_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
+var get_basket_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets/%s?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
 var add_product_to_cart_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets/%s/items?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
 var request = require('request');
 var utils = require('./utils');
@@ -28,6 +29,10 @@ exports.createBasket = function(req) {
                         resolve("Basket Created Successfuly");
                 });
             }
+        } else {
+            exports.getBasket(req).then(function(){
+                resolve("Basket already created");
+            });
         }
     });
 
@@ -53,6 +58,7 @@ exports.createBasketHelper = function(jwtToken, req) {
             //save jwtToken in session
             req.session.token = jwtToken;
             //save etag in session
+            console.log("etag " + response.headers.etag);
             req.session.basket_etag = response.headers.etag;
             //save basket_id in session
             req.session.basket_id = JSON.parse(body).basket_id;
@@ -62,6 +68,30 @@ exports.createBasketHelper = function(jwtToken, req) {
         });
     });
 
+};
+
+exports.getBasket = function(req) {
+
+    return new Promise(function(resolve, reject){
+        var basketId = req.session.basket_id;
+        var getBasketUrl = util.format(get_basket_url, basketId);
+
+        request({
+
+            url : getBasketUrl,
+            headers : {
+                "Authorization" : req.session.token,
+                "If-Match" : req.session.basket_etag,
+                "Content-Type" : "application/json"
+            },
+            method : 'GET',
+            }, function(error, response, body){
+                    req.session.basket_etag = response.headers.etag;
+                    //manually save session
+                    req.session.save();
+                    resolve("Successfuly get basket");
+            });
+        });
 };
 
 exports.addProductToBasket = function(productObj, req) {
@@ -82,7 +112,10 @@ exports.addProductToBasket = function(productObj, req) {
                 method : 'POST',
                 json : productObj
             }, function(error, response, body){
-                    console.log("body");
+                    console.log(body);
+
+                    //var basketObj = {};
+
             });
     });
 

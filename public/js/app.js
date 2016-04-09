@@ -12,10 +12,9 @@ $(function(){
 
     $('#addToCart').click(function(e){
         e.preventDefault();
-        alert("add product to bag");
 
         var productObj = {};
-        productObj["product_id"] = $("#variant-size a").filter("[class='js_selected']").data('pid');
+        productObj["product_id"] = $("#variant-size a").filter("[class='js_selected']").data('pid').toString();
         productObj["quantity"] = parseInt($('.product-qty select').val());
 
         $.ajax({

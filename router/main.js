@@ -73,10 +73,6 @@ module.exports = function(app)
 
      app.post('/addProductToBasket', function(req, res){
 
-
-
-        console.log(req.session.token);
-        console.log(req.session.basket_etag);
         var productObject = {};
         productObject.product_id = req.body.product_id;
         productObject.quantity = req.body.quantity;
