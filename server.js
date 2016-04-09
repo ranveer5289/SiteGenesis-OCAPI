@@ -9,13 +9,12 @@ app.use(express.static('public'));
 //app.use('/scripts', express.static(__dirname + '/node_modules/swig/dist/'));
 app.use(session({
     secret:'somesecrettokenhere',
-    resave: false,
-    saveUninitialized: false
+    resave: true,
+    saveUninitialized: true
 }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
 
+app.use(bodyParser.json());
 
 require('./router/main')(app);
 app.engine('html', swig.renderFile);
@@ -23,6 +22,8 @@ app.set('view engine', 'html');
 app.set('views',__dirname + '/views');
 swig.setDefaults({ cache: false });
 
+//Skip SSL certificate match
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
 var server = app.listen(3000, function(){
 	console.log("Server started at port 3000");

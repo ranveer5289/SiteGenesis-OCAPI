@@ -18,10 +18,12 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 
+
 <!--webfont-->
 <link href='http://fonts.googleapis.com/css?family=Raleway:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
 <link href='http://fonts.googleapis.com/css?family=Roboto:100,200,300,400,500,600,700,800,900' rel='stylesheet' type='text/css'>
 <script src="js/jquery.easydropdown.js"></script>
+<script src="js/app.js" type="text/javascript"></script>
 <!-- Add fancyBox main JS and CSS files -->
 <script src="js/jquery.magnific-popup.js" type="text/javascript"></script>
 <link href="css/magnific-popup.css" rel="stylesheet" type="text/css">
@@ -75,6 +77,11 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 				<h3 class="m_1">{{selectedCategoryName}}</h3>
 				 <div class="content_grid">
 				 	{% include "./producthit.html" %}
+                    <div class="btn_form">
+                       <form>
+                         <input type="submit" id="addToCart" value="Add to Cart" title="">
+                      </form>
+                    </div>
 				</div>
 			  </div>
 			</div>

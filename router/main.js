@@ -1,6 +1,9 @@
 var swig  = require('swig');
 var category = require("./../helpers/category.js");
 var product = require("./../helpers/product.js");
+var cart = require("./../helpers/cart.js");
+var utils = require("./../helpers/utils.js");
+
 var Promise = require('bluebird');
 
 module.exports = function(app)
@@ -65,6 +68,23 @@ module.exports = function(app)
                 });
             }).catch(function(error){
                     console.log(error);
+        });
+     });
+
+     app.post('/addProductToBasket', function(req, res){
+
+
+
+        console.log(req.session.token);
+        console.log(req.session.basket_etag);
+        var productObject = {};
+        productObject.product_id = req.body.product_id;
+        productObject.quantity = req.body.quantity;
+
+        cart.createBasket(req).then(function(){
+            cart.addProductToBasket(productObject, req).then(function(){
+
+            });
         });
      });
 }
