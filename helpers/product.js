@@ -7,7 +7,7 @@ var category = require('./category');
 
 exports.getProductObject = function(pid) {
     var productShowUrl = util.format(product_url, pid);
-    return new Promise(function(resolve, reject){
+    return new Promise(function(resolve, reject) {
         request(productShowUrl, function(error, response, body) {
             if (error) {
                 reject("Error Getting products");
@@ -24,7 +24,7 @@ exports.getProductObject = function(pid) {
                 product['primaryCategoryId'] = responseBody.primary_category_id;
                 var variants = responseBody.variants;
 
-                category.getCategoryObject(responseBody.primary_category_id).then(function(categoryObject){
+                category.getCategoryObject(responseBody.primary_category_id).then(function(categoryObject) {
                     product['primaryCategoryName'] = categoryObject.name;
                     resolve([product, variants]);
                 });
@@ -42,7 +42,7 @@ exports.getVariantValues = function(variantObject) {
     var sizeVariantValues = [];
     var variantValues = [];
 
-    for(index in variantObject) {
+    for (index in variantObject) {
         var variantValue = {},
             variationValues = variantObject[index].variation_values,
             variantId = variantObject[index].product_id;
@@ -71,13 +71,13 @@ exports.getVariantValues = function(variantObject) {
 exports.getProductImages = function(productObject) {
 
     var productImages = {};
-    if(productObject) {
+    if (productObject) {
         var images = productObject.images;
-        for(let index in images) {
+        for (let index in images) {
             var image = images[index];
             if (image.view_type === 'large') {
                 productImages['large'] = this.getImages(image);
-            } else if(image.view_type === 'small') {
+            } else if (image.view_type === 'small') {
                 productImages['small'] = this.getImages(image);
             }
         }
@@ -88,10 +88,9 @@ exports.getProductImages = function(productObject) {
 exports.getImages = function(imageObject) {
     var imageArray = [];
     var images = imageObject.images;
-    for(let index in images) {
+    for (let index in images) {
         let image = images[index];
         imageArray.push(image.link);
     }
     return imageArray;
 };
-

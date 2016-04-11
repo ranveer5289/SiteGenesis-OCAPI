@@ -1,0 +1,18 @@
+<div class="product">
+<div class="product-image">
+  <img src="{{products[index]['productImageSrc']}}">
+</div>
+<div class="product-details">
+  <div class="product-title">{{products[index]["productName"]}}</div>
+</div>
+<div class="product-price">{{products[index]["productPrice"]}}</div>
+<div class="product-quantity">
+  <input type="number" value="{{products[index]['productQuantity']}}" min="1">
+</div>
+<div class="product-removal">
+  <button class="remove-product">
+    Remove
+  </button>
+</div>
+<div class="product-line-price">{{products[index]["productPrice"] * products[index]['productQuantity']}}</div>
+</div>

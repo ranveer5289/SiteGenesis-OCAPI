@@ -25,10 +25,14 @@ $(function(){
             method : 'POST',
             dataType: "json",
             success : function(data) {
-                console.log(data);
+                if ('success' in data) {
+                    alert(data.success);
+                }
             },
-            error : function(error) {
-              console.log(error);
+            error : function(data) {
+                if ('error' in data) {
+                    alert(data.error);
+                }
             }
 
         });
