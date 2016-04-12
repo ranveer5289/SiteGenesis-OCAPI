@@ -93,16 +93,32 @@ module.exports = function(app) {
 
     app.get('/CartShow', function(req, res) {
 
-        cart.getBasket(req).then(function(basket) {
-            cart.getBasketObject(JSON.parse(basket)).then(function(basketObj) {
-                console.log(JSON.stringify(basketObj));
-                res.render('cart', {
-                    basket: basketObj,
-                    products: basketObj.products
+        var action = req.query.action;
+        if (action === 'remove') {
+
+            cart.removeProductFromBasket(req).then(function(basket) {
+                cart.getBasketObject(basket).then(function(basketObj) {
+                    res.render('cart', {
+                        basket: basketObj,
+                        products: basketObj.products
+                    });
                 });
+            }).catch(function(error) {
+                console.log(error);
             });
-        }).catch(function(error) {
-            console.log(error);
-        });
+
+        } else {
+            cart.getBasket(req).then(function(basket) {
+                cart.getBasketObject(JSON.parse(basket)).then(function(basketObj) {
+                    res.render('cart', {
+                        basket: basketObj,
+                        products: basketObj.products
+                    });
+                });
+            }).catch(function(error) {
+                console.log(error);
+            });
+        }
+
     });
 };

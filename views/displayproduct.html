@@ -11,7 +11,7 @@
 </div>
 <div class="product-removal">
   <button class="remove-product">
-    Remove
+    <a href="/CartShow?action=remove&pid={{index}}&itemId={{products[index]['productItemId']}}">Remove</a>
   </button>
 </div>
 <div class="product-line-price">{{products[index]["productPrice"] * products[index]['productQuantity']}}</div>
