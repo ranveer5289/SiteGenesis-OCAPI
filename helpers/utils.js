@@ -1,4 +1,5 @@
-var customer_auth_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/customers/auth?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
+var config = require("./ocapiconfig");
+var customer_auth_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/customers/auth?client_id=" + config.clientid;
 var request = require('request');
 
 exports.getJWTToken = function() {

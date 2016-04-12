@@ -1,8 +1,11 @@
 "use strict";
-var create_basket_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
-var get_basket_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets/%s?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
-var add_product_to_cart_url = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets/%s/items?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
-var remove_product_from_cart = "https://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/baskets/%s/items/%s?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json";
+var config = require("./ocapiconfig");
+var create_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets?client_id=" + config.clientid + "&format=json";
+var get_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s?client_id=" + config.clientid + "&format=json";
+var add_product_to_cart_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items?client_id=" + config.clientid + "&format=json";
+var remove_product_from_cart = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items/%s?client_id=" + config.clientid + "&format=json";
+
+
 var request = require('request');
 var utils = require('./utils');
 var product = require('./product');
@@ -30,6 +33,7 @@ exports.createBasket = function(req) {
 };
 
 exports.createBasketHelper = function(jwtToken, req) {
+
     return new Promise(function(resolve, reject) {
         request({
 
@@ -43,7 +47,7 @@ exports.createBasketHelper = function(jwtToken, req) {
             if (error) {
                 reject(error);
             }
-
+            debugger;
             resolve("Call made Successfuly to create basket");
             //save jwtToken in session
             req.session.token = jwtToken;

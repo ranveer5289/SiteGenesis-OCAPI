@@ -1,9 +1,10 @@
 "use strict"
-var product_url = "http://dev01-latam-loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/products/%s?format=json&expand=images,prices,variations&client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
 var request = require("request");
+var config = require("./ocapiconfig");
 var util = require('util');
 var Promise = require('bluebird');
 var category = require('./category');
+var product_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/products/%s?format=json&expand=images,prices,variations&client_id=" + config.clientid;
 
 exports.getProductObject = function(pid) {
     var productShowUrl = util.format(product_url, pid);

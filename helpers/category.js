@@ -1,6 +1,8 @@
-var category_url = "http://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/categories/%s?client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json"
-var product_search_url = "http://dev01.latam.loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/product_search?refine=cgid=%s&expand=prices,images&client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa&format=json"
-var product_url = "http://dev01-latam-loreal.demandware.net/s/SiteGenesis/dw/shop/v16_3/products/%s?format=json&expand=images&client_id=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+
+var config = require("./ocapiconfig");
+var category_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/categories/%s?client_id=" + config.clientid;
+var product_search_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/product_search?refine=cgid=%s&expand=prices,images&client_id=" + config.clientid;
+
 var request = require("request");
 var util = require('util');
 var Promise = require('bluebird');
