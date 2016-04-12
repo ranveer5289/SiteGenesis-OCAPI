@@ -1,6 +1,6 @@
 "use strict"
 var request = require("request");
-var config = require("./ocapiconfig");
+var config = require("../ocapiconfig");
 var util = require('util');
 var Promise = require('bluebird');
 var category = require('./category');

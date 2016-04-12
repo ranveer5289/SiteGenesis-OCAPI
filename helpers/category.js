@@ -1,5 +1,5 @@
 
-var config = require("./ocapiconfig");
+var config = require("../ocapiconfig");
 var category_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/categories/%s?client_id=" + config.clientid;
 var product_search_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/product_search?refine=cgid=%s&expand=prices,images&client_id=" + config.clientid;
 

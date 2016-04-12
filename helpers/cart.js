@@ -1,5 +1,5 @@
 "use strict";
-var config = require("./ocapiconfig");
+var config = require("../ocapiconfig");
 var create_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets?client_id=" + config.clientid + "&format=json";
 var get_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s?client_id=" + config.clientid + "&format=json";
 var add_product_to_cart_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items?client_id=" + config.clientid + "&format=json";
