@@ -121,4 +121,22 @@ module.exports = function(app) {
         }
 
     });
+
+    app.get('/Shipping', function(req, res) {
+        res.render('shipping', {});
+    });
+
+    app.post('/Billing', function(req, res) {
+        cart.getBasket(req).then(function(basket) {
+            cart.updateDefaultShipment(req).then(function(basket) {
+                cart.getBasketObject(basket).then(function(basketObj) {
+                    res.render('billing', {
+                        basket: basketObj
+                    });
+                });
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    });
 };

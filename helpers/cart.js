@@ -4,6 +4,8 @@ var create_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" 
 var get_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s?client_id=" + config.clientid + "&format=json";
 var add_product_to_cart_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items?client_id=" + config.clientid + "&format=json";
 var remove_product_from_cart = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items/%s?client_id=" + config.clientid + "&format=json";
+var create_shipment_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/shipments?client_id=" + config.clientid + "&format=json";
+var update_default_shipment_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/shipments/me?client_id=" + config.clientid + "&format=json";
 
 
 var request = require('request');
@@ -114,7 +116,7 @@ exports.addProductToBasket = function(productObj, req) {
             method: 'POST',
             json: productObj
         }, function(error, response, body) {
-
+            debugger;
             if (error) {
                 reject("Error adding product to basket " + error);
             }
@@ -141,18 +143,19 @@ exports.getBasketObject = function(basket) {
     }
     productLineItems = basket.product_items;
 
-    if ('order_total' in basket && basket.order_total >= 0) {
+    if ('order_total' in basket && basket.order_total > 0) {
         basketObj.total = basket.order_total;
-    } else if ('product_total' in basket && basket.product_total >= 0) {
-        basketObj.total = basket.product_total;
     }
-    if ('tax_total' in basket && basket.tax_total >= 0) {
+    if ('product_total' in basket && basket.product_total > 0) {
+        basketObj.subtotal = basket.product_total;
+    }
+    if ('tax_total' in basket && basket.tax_total > 0) {
         basketObj.tax = basket.tax_total;
     } else {
         basketObj.tax = "N/A";
     }
 
-    if ('shipping_total' in basket && basket.shipping_total >= 0) {
+    if ('shipping_total' in basket && basket.shipping_total > 0) {
         basketObj.shipping = basket.shipping_total;
     } else {
         basketObj.shipping = "N/A";
@@ -185,6 +188,7 @@ exports.getBasketObject = function(basket) {
     }
 
     return Promise.all(promises).then(function() {
+        debugger;
         return basketObj;
     });
 };
@@ -224,8 +228,104 @@ exports.removeProductFromBasket = function(req) {
                 reject("Error adding product to basket");
             }
 
-
-
         });
     });
 };
+
+exports.createShipment = function(req) {
+
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+        var createShipmentUrl = util.format(create_shipment_url, basketId);
+
+        var shippingObject = {};
+        shippingObject.shipment_id = "StandardShippingMethod";
+        shippingObject.shipping_method = {
+            "id": "001"
+        };
+
+        shippingObject.shipping_address = {};
+        shippingObject.shipping_address.first_name = req.body.q3_fullName3.first;
+        shippingObject.shipping_address.last_name = req.body.q3_fullName3.last;
+        shippingObject.shipping_address.city = req.body.q5_address5.city;
+        shippingObject.shipping_address.country_code = req.body.q5_address5.country;
+        shippingObject.shipping_address.address1 = req.body.q5_address5.addr_line1;
+        shippingObject.shipping_address.address2 = req.body.q5_address5.addr_line2;
+        shippingObject.shipping_address.postal_code = req.body.q5_address5.postal;
+        shippingObject.shipping_address.phone = req.body.q6_phoneNumber6.phone;
+        debugger;
+        request({
+
+            url: createShipmentUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            json: shippingObject
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                debugger;
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+
+};
+
+exports.updateDefaultShipment = function(req) {
+
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+        var updateDefaultShipmentUrl = util.format(update_default_shipment_url, basketId);
+
+        var shippingObject = {};
+        shippingObject.shipment_id = "me";
+        shippingObject.shipping_method = {
+            "id": "001"
+        };
+
+        shippingObject.shipping_address = {};
+        shippingObject.shipping_address.first_name = req.body.q3_fullName3.first;
+        shippingObject.shipping_address.last_name = req.body.q3_fullName3.last;
+        shippingObject.shipping_address.city = req.body.q5_address5.city;
+        shippingObject.shipping_address.country_code = req.body.q5_address5.country;
+        shippingObject.shipping_address.address1 = req.body.q5_address5.addr_line1;
+        shippingObject.shipping_address.address2 = req.body.q5_address5.addr_line2;
+        shippingObject.shipping_address.postal_code = req.body.q5_address5.postal;
+        shippingObject.shipping_address.phone = req.body.q6_phoneNumber6.phone;
+        request({
+
+            url: updateDefaultShipmentUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'PATCH',
+            json: shippingObject
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+
+}

@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html class="supernova"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="alternate" type="application/json+oembed" href="https://www.jotform.com/oembed/?format=json&amp;url=http%3A%2F%2Fwww.jotform.com%2Fform%2F61032247622446" title="oEmbed Form"><link rel="alternate" type="text/xml+oembed" href="https://www.jotform.com/oembed/?format=xml&amp;url=http%3A%2F%2Fwww.jotform.com%2Fform%2F61032247622446" title="oEmbed Form">
+<title>Billing Form</title>
+<link href="//cdn.jotfor.ms/static/formCss.css?3.3.12587" rel="stylesheet" type="text/css" />
+<link type="text/css" rel="stylesheet" href="//cdn.jotfor.ms/css/styles/nova.css?3.3.12587" />
+<link type="text/css" media="print" rel="stylesheet" href="//cdn.jotfor.ms/css/printForm.css?3.3.12587" />
+<link type="text/css" rel="stylesheet" href="//cdn.jotfor.ms/themes/CSS/5489cead700cc469138b4567.css?themeRevisionID=555da031977cdfad168b4567"/>
+<style type="text/css">
+    .form-label-left{
+        width:150px !important;
+    }
+    .form-line{
+        padding-top:12px;
+        padding-bottom:12px;
+    }
+    .form-label-right{
+        width:150px !important;
+    }
+    body, html{
+        margin:0;
+        padding:0;
+        background:false;
+    }
+
+    .form-all{
+        margin:0px auto;
+        padding-top:0px;
+        width:450px;
+        color:#555 !important;
+        font-family:'Open Sans';
+        font-size:14px;
+    }
+    .form-radio-item label, .form-checkbox-item label, .form-grading-label, .form-header{
+        color: #555;
+    }
+
+</style>
+
+<script src="//cdn.jotfor.ms/static/prototype.forms.js" type="text/javascript"></script>
+<script src="//cdn.jotfor.ms/static/jotform.forms.js?3.3.12587" type="text/javascript"></script>
+<script type="text/javascript">
+   JotForm.init(function(){
+      setTimeout(function() {
+          $('input_4').hint('ex: myname@example.com');
+       }, 20);
+    JotForm.clearFieldOnHide="disable";
+    JotForm.onSubmissionError="jumpToFirstError";
+   });
+</script>
+</head>
+<body>
+{% include "./cartsummary.html" %}
+<form class="jotform-form" action="/Payment" method="post" name="form_61032247622446" id="61032247622446" accept-charset="utf-8">
+  <input type="hidden" name="formID" value="61032247622446" />
+  <div class="form-all">
+    <ul class="form-section page-section">
+      <li id="cid_1" class="form-input-wide" data-type="control_head">
+        <div class="form-header-group">
+          <div class="header-text httal htvam">
+            <h1 id="header_1" class="form-header">
+              Billing Address
+            </h1>
+            <div id="subHeader_1" class="form-subHeader">
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_fullname" id="id_3">
+        <label class="form-label form-label-left form-label-auto" id="label_3" for="input_3">
+          Full Name
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_3" class="form-input jf-required">
+          <span class="form-sub-label-container" style="vertical-align: top">
+            <input class="form-textbox" type="text" name="q3_fullName3[prefix]" size="4" id="prefix_3" />
+            <label class="form-sub-label" for="prefix_3" id="sublabel_prefix" style="min-height: 13px;"> Prefix </label>
+          </span>
+          <span class="form-sub-label-container" style="vertical-align: top">
+            <input class="form-textbox validate[required]" type="text" size="10" name="q3_fullName3[first]" id="first_3" />
+            <label class="form-sub-label" for="first_3" id="sublabel_first" style="min-height: 13px;"> First Name </label>
+          </span>
+          <span class="form-sub-label-container" style="vertical-align: top">
+            <input class="form-textbox validate[required]" type="text" size="15" name="q3_fullName3[last]" id="last_3" />
+            <label class="form-sub-label" for="last_3" id="sublabel_last" style="min-height: 13px;"> Last Name </label>
+          </span>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_address" id="id_5">
+        <label class="form-label form-label-left form-label-auto" id="label_5" for="input_5">
+          Address
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_5" class="form-input jf-required">
+          <table summary="" undefined class="form-address-table" border="0" cellpadding="0" cellspacing="0">
+            <tr>
+              <td colspan="2">
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <input class="form-textbox validate[required] form-address-line" type="text" name="q5_address5[addr_line1]" id="input_5_addr_line1" />
+                  <label class="form-sub-label" for="input_5_addr_line1" id="sublabel_5_addr_line1" style="min-height: 13px;"> Street Address </label>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <input class="form-textbox form-address-line" type="text" name="q5_address5[addr_line2]" id="input_5_addr_line2" size="46" />
+                  <label class="form-sub-label" for="input_5_addr_line2" id="sublabel_5_addr_line2" style="min-height: 13px;"> Street Address Line 2 </label>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%">
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <input class="form-textbox validate[required] form-address-city" type="text" name="q5_address5[city]" id="input_5_city" size="21" />
+                  <label class="form-sub-label" for="input_5_city" id="sublabel_5_city" style="min-height: 13px;"> City </label>
+                </span>
+              </td>
+              <td>
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <input class="form-textbox validate[required] form-address-state" type="text" name="q5_address5[state]" id="input_5_state" size="22" />
+                  <label class="form-sub-label" for="input_5_state" id="sublabel_5_state" style="min-height: 13px;"> State / Province </label>
+                </span>
+              </td>
+            </tr>
+            <tr>
+              <td width="50%">
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <input class="form-textbox validate[required] form-address-postal" type="text" name="q5_address5[postal]" id="input_5_postal" size="10" />
+                  <label class="form-sub-label" for="input_5_postal" id="sublabel_5_postal" style="min-height: 13px;"> Postal / Zip Code </label>
+                </span>
+              </td>
+              <td>
+                <span class="form-sub-label-container" style="vertical-align: top">
+                  <select class="form-dropdown validate[required] form-address-country" defaultcountry="" name="q5_address5[country]" id="input_5_country">
+                    <option value="" selected> Please Select </option>
+                    <option value="US"> United States </option>
+                  </select>
+                  <label class="form-sub-label" for="input_5_country" id="sublabel_5_country" style="min-height: 13px;"> Country </label>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </li>
+      <li class="form-line jf-required" data-type="control_phone" id="id_6">
+        <label class="form-label form-label-left form-label-auto" id="label_6" for="input_6">
+          Phone Number
+          <span class="form-required">
+            *
+          </span>
+        </label>
+        <div id="cid_6" class="form-input jf-required">
+          <span class="form-sub-label-container" style="vertical-align: top">
+            <input class="form-textbox validate[required]" type="tel" name="q6_phoneNumber6[area]" id="input_6_area" size="3">
+            <span class="phone-separate">
+              &nbsp;-
+            </span>
+            <label class="form-sub-label" for="input_6_area" id="sublabel_area" style="min-height: 13px;"> Area Code </label>
+          </span>
+          <span class="form-sub-label-container" style="vertical-align: top">
+            <input class="form-textbox validate[required]" type="tel" name="q6_phoneNumber6[phone]" id="input_6_phone" size="8">
+            <label class="form-sub-label" for="input_6_phone" id="sublabel_phone" style="min-height: 13px;"> Phone Number </label>
+          </span>
+        </div>
+      </li>
+      <li class="form-line" data-type="control_button" id="id_2">
+        <div id="cid_2" class="form-input-wide">
+          <div style="margin-left:156px" class="form-buttons-wrapper">
+            <button id="input_2" type="submit" class="form-submit-button">
+              Submit Form
+            </button>
+          </div>
+        </div>
+      </li>
+      <li style="display:none">
+        Should be Empty:
+        <input type="text" name="website" value="" />
+      </li>
+    </ul>
+  </div>
+  <input type="hidden" id="simple_spc" name="simple_spc" value="61032247622446" />
+  <script type="text/javascript">
+  document.getElementById("si" + "mple" + "_spc").value = "61032247622446-61032247622446";
+  </script>
+</form></body>
+</html>
+<script type="text/javascript">JotForm.ownerView=true;</script>

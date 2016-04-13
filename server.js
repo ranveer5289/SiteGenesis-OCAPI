@@ -15,6 +15,8 @@ app.use(session({
 
 
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
+
 
 require('./router/main')(app);
 app.engine('html', swig.renderFile);
