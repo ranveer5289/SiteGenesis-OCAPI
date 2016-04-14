@@ -123,14 +123,38 @@ module.exports = function(app) {
     });
 
     app.get('/Shipping', function(req, res) {
-        res.render('shipping', {});
+        cart.getBasket(req).then(function(basket) {
+            cart.getBasketObject(JSON.parse(basket)).then(function(basketObj) {
+                res.render('shipping', {
+                    basket: basketObj
+                });
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
     });
 
     app.post('/Billing', function(req, res) {
         cart.getBasket(req).then(function(basket) {
-            cart.updateDefaultShipment(req).then(function(basket) {
+            cart.updateBasket(req).then(function() {
+                cart.updateDefaultShipment(req).then(function(basket) {
+                    cart.getBasketObject(basket).then(function(basketObj) {
+                        res.render('billing', {
+                            basket: basketObj
+                        });
+                    });
+                });
+            });
+        }).catch(function(error) {
+            console.log(error);
+        });
+    });
+
+    app.post('/Payment', function(req, res) {
+        cart.getBasket(req).then(function(basket) {
+            cart.createBillingAddress(req).then(function(basket) {
                 cart.getBasketObject(basket).then(function(basketObj) {
-                    res.render('billing', {
+                    res.render('payment', {
                         basket: basketObj
                     });
                 });
@@ -139,4 +163,15 @@ module.exports = function(app) {
             console.log(error);
         });
     });
+
+    app.post('/Review', function(req, res) {
+        cart.getBasket(req).then(function(basket){
+            cart.createBasketPaymentInstrument(req, basket).then(function(){
+                cart.placeOrder(req).then(function(){
+
+                });
+            });
+        });
+    });
+
 };

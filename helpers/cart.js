@@ -1,11 +1,15 @@
 "use strict";
 var config = require("../ocapiconfig");
 var create_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets?client_id=" + config.clientid + "&format=json";
+var update_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/customer?client_id=" + config.clientid + "&format=json";
 var get_basket_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s?client_id=" + config.clientid + "&format=json";
 var add_product_to_cart_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items?client_id=" + config.clientid + "&format=json";
 var remove_product_from_cart = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/items/%s?client_id=" + config.clientid + "&format=json";
 var create_shipment_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/shipments?client_id=" + config.clientid + "&format=json";
 var update_default_shipment_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/shipments/me?client_id=" + config.clientid + "&format=json";
+var create_billing_address_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/billing_address?client_id=" + config.clientid + "&format=json";
+var create_payment_instrument_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/payment_instruments?client_id=" + config.clientid + "&format=json";
+var create_order_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/orders?client_id=" + config.clientid + "&format=json";
 
 
 var request = require('request');
@@ -49,7 +53,6 @@ exports.createBasketHelper = function(jwtToken, req) {
             if (error) {
                 reject(error);
             }
-            debugger;
             resolve("Call made Successfuly to create basket");
             //save jwtToken in session
             req.session.token = jwtToken;
@@ -116,7 +119,6 @@ exports.addProductToBasket = function(productObj, req) {
             method: 'POST',
             json: productObj
         }, function(error, response, body) {
-            debugger;
             if (error) {
                 reject("Error adding product to basket " + error);
             }
@@ -188,7 +190,6 @@ exports.getBasketObject = function(basket) {
     }
 
     return Promise.all(promises).then(function() {
-        debugger;
         return basketObj;
     });
 };
@@ -254,7 +255,6 @@ exports.createShipment = function(req) {
         shippingObject.shipping_address.address2 = req.body.q5_address5.addr_line2;
         shippingObject.shipping_address.postal_code = req.body.q5_address5.postal;
         shippingObject.shipping_address.phone = req.body.q6_phoneNumber6.phone;
-        debugger;
         request({
 
             url: createShipmentUrl,
@@ -271,7 +271,6 @@ exports.createShipment = function(req) {
                 reject("Error adding product to basket " + error);
             }
             if (body) {
-                debugger;
                 resolve(body);
             } else {
                 reject("Error adding product to basket");
@@ -295,15 +294,8 @@ exports.updateDefaultShipment = function(req) {
             "id": "001"
         };
 
-        shippingObject.shipping_address = {};
-        shippingObject.shipping_address.first_name = req.body.q3_fullName3.first;
-        shippingObject.shipping_address.last_name = req.body.q3_fullName3.last;
-        shippingObject.shipping_address.city = req.body.q5_address5.city;
-        shippingObject.shipping_address.country_code = req.body.q5_address5.country;
-        shippingObject.shipping_address.address1 = req.body.q5_address5.addr_line1;
-        shippingObject.shipping_address.address2 = req.body.q5_address5.addr_line2;
-        shippingObject.shipping_address.postal_code = req.body.q5_address5.postal;
-        shippingObject.shipping_address.phone = req.body.q6_phoneNumber6.phone;
+        shippingObject.shipping_address = utils.getAddress(req);
+
         request({
 
             url: updateDefaultShipmentUrl,
@@ -328,4 +320,164 @@ exports.updateDefaultShipment = function(req) {
         });
     });
 
-}
+};
+
+exports.createBillingAddress = function(req) {
+
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+        var createBillingAddressUrl = util.format(create_billing_address_url, basketId);
+
+        var shippingObject = utils.getAddress(req);
+
+        request({
+
+            url: createBillingAddressUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'PUT',
+            json: shippingObject
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                req.session.order_total = body.order_total;
+                req.session.save();
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+
+};
+
+exports.updateBasket = function(req) {
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+        var updateBasketUrl = util.format(update_basket_url, basketId);
+
+        var modifiedBasketObj = {};
+
+        //Set customer email in basket
+        var customerEmail = req.body.q4_email4;
+        modifiedBasketObj.email = customerEmail;
+
+        request({
+
+            url: updateBasketUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'PUT',
+            json: modifiedBasketObj
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+
+            if (body) {
+                req.session.basket_etag = response.headers.etag;
+                //manually save session
+                req.session.save();
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+};
+
+exports.createBasketPaymentInstrument = function(req, basket) {
+
+    console.log(req.session.order_total);
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+        var createPaymentInstrumentUrl = util.format(create_payment_instrument_url, basketId);
+        var paymentObj = {};
+        paymentObj.amount = req.session.order_total; //saved in session as for unknown reasons basket.order_total is undefined
+        paymentObj.payment_method_id = config.paymentmethodid;
+
+        paymentObj.payment_card = {};
+        paymentObj.payment_card.number = req.body['payment-card-number'];
+        paymentObj.payment_card.security_code = req.body['payment-cvv'];
+        paymentObj.payment_card.holder = req.body['payment-name'];
+        paymentObj.payment_card.card_type = req.body['payment-card-type'];
+        paymentObj.payment_card.expiration_month = parseInt(req.body['payment-month']);
+        paymentObj.payment_card.expiration_year = parseInt(req.body['payment-year']);
+
+        request({
+
+            url: createPaymentInstrumentUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            json: paymentObj
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                req.session.basket_etag = response.headers.etag;
+                //manually save session
+                req.session.save();
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+};
+
+exports.placeOrder = function(req) {
+
+
+    return new Promise(function(resolve, reject) {
+
+        var basketId = req.session.basket_id;
+
+        var orderObj = {};
+        orderObj.basket_id = basketId;
+
+        request({
+
+            url: create_order_url,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            json: orderObj
+        }, function(error, response, body) {
+
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+};

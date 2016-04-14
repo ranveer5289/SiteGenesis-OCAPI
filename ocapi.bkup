@@ -19,6 +19,11 @@
             "read_attributes": "(**)",
             "write_attributes": "(**)"
         }, {
+            "resource_id": "/baskets/{id}/customer",
+            "methods": ["put"],
+            "read_attributes": "(**)",
+            "write_attributes": "(**)"
+        }, {
             "resource_id": "/account/login",
             "methods": ["post"],
             "read_attributes": "(**)",
@@ -63,9 +68,19 @@
             "methods": ["post"],
             "read_attributes": "(**)",
             "write_attributes": "(**)"
-        },{
+        }, {
             "resource_id": "/baskets/{id}/shipments/{id}",
             "methods": ["patch"],
+            "read_attributes": "(**)",
+            "write_attributes": "(**)"
+        }, {
+            "resource_id": "/baskets/{id}/billing_address",
+            "methods": ["put"],
+            "read_attributes": "(**)",
+            "write_attributes": "(**)"
+        }, {
+            "resource_id": "/baskets/{id}/payment_instruments",
+            "methods": ["post"],
             "read_attributes": "(**)",
             "write_attributes": "(**)"
         }, {
@@ -261,7 +276,7 @@
             "write_attributes": "(**)"
         }, {
             "resource_id": "/orders",
-            "methods": ["get"],
+            "methods": ["post"],
             "read_attributes": "(**)",
             "write_attributes": "(**)"
         }]
