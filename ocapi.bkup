@@ -83,6 +83,11 @@
             "methods": ["post"],
             "read_attributes": "(**)",
             "write_attributes": "(**)"
+        },{
+            "resource_id": "/orders/{id}/payment_instruments",
+            "methods": ["post"],
+            "read_attributes": "(**)",
+            "write_attributes": "(**)"
         }, {
             "resource_id": "/categories/*",
             "methods": ["get"],

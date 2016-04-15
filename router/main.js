@@ -164,13 +164,17 @@ module.exports = function(app) {
         });
     });
 
-    app.post('/Review', function(req, res) {
-        cart.getBasket(req).then(function(basket){
-            cart.createBasketPaymentInstrument(req, basket).then(function(){
-                cart.placeOrder(req).then(function(){
-
+    app.post('/Submit', function(req, res) {
+        cart.getBasket(req).then(function(basket) {
+            cart.createBasketPaymentInstrument(req, basket).then(function() {
+                cart.placeOrder(req).then(function(order) {
+                    res.render('confirmation', {
+                        order: order
+                    });
                 });
             });
+        }).catch(function(error) {
+            console.log(error);
         });
     });
 

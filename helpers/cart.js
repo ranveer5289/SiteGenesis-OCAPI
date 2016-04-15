@@ -10,6 +10,7 @@ var update_default_shipment_url = config.httpshost + '/s/' + config.siteid + "/d
 var create_billing_address_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/billing_address?client_id=" + config.clientid + "&format=json";
 var create_payment_instrument_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/baskets/%s/payment_instruments?client_id=" + config.clientid + "&format=json";
 var create_order_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/orders?client_id=" + config.clientid + "&format=json";
+var add_pi_order_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/orders/%s/payment_instruments?client_id=" + config.clientid + "&format=json";
 
 
 var request = require('request');
@@ -243,7 +244,7 @@ exports.createShipment = function(req) {
         var shippingObject = {};
         shippingObject.shipment_id = "StandardShippingMethod";
         shippingObject.shipping_method = {
-            "id": "001"
+            "id": ocapiconfig.defaultshippingmethodid
         };
 
         shippingObject.shipping_address = {};
@@ -473,6 +474,64 @@ exports.placeOrder = function(req) {
                 reject("Error adding product to basket " + error);
             }
             if (body) {
+                //clear basket variables
+                req.session.basket_id = "";
+                req.session.token = "";
+                req.session.save();
+                resolve(body);
+            } else {
+                reject("Error adding product to basket");
+            }
+
+        });
+    });
+};
+
+
+exports.addPaymentInstrumentToOrder = function(order, req) {
+
+
+    return new Promise(function(resolve, reject) {
+
+        var addPaymentInstrumentUrl = util.format(add_pi_order_url, order.order_no);
+
+        /*Need to be refactored as in future multiple PI can be present in order
+        var existingPaymentObj = order.payment_instruments[0];
+        paymentObj.amount = existingPaymentObj.amount
+        paymentObj.payment_card = existingPaymentObj.payment_card;
+        paymentObj.payment_method_id = existingPaymentObj.payment_method_id;*/
+
+        var paymentObj = {};
+        paymentObj.amount = order.order_total;
+        paymentObj.payment_method_id = config.paymentmethodid;
+
+        paymentObj.payment_card = {};
+        paymentObj.payment_card.number = req.body['payment-card-number'];
+        paymentObj.payment_card.security_code = req.body['payment-cvv'];
+        paymentObj.payment_card.holder = req.body['payment-name'];
+        paymentObj.payment_card.card_type = req.body['payment-card-type'];
+        paymentObj.payment_card.expiration_month = parseInt(req.body['payment-month']);
+        paymentObj.payment_card.expiration_year = parseInt(req.body['payment-year']);
+
+        debugger;
+
+        request({
+
+            url: addPaymentInstrumentUrl,
+            headers: {
+                "Authorization": req.session.token,
+                "If-Match": req.session.basket_etag,
+                "Content-Type": "application/json"
+            },
+            method: 'POST',
+            json: paymentObj
+        }, function(error, response, body) {
+            debugger;
+            if (error) {
+                reject("Error adding product to basket " + error);
+            }
+            if (body) {
+                console.log(body)
                 resolve(body);
             } else {
                 reject("Error adding product to basket");
