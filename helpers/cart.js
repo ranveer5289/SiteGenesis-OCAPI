@@ -222,12 +222,12 @@ exports.removeProductFromBasket = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error removing product to basket " + error);
             }
             if (body) {
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error removing product to basket");
             }
 
         });
@@ -269,12 +269,12 @@ exports.createShipment = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error creating shipment in basket" + error);
             }
             if (body) {
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error creating shipment in basket");
             }
 
         });
@@ -310,12 +310,12 @@ exports.updateDefaultShipment = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error updating shipment in basket " + error);
             }
             if (body) {
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error updating shipment in basket");
             }
 
         });
@@ -345,14 +345,14 @@ exports.createBillingAddress = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error creating billing address in basket " + error);
             }
             if (body) {
                 req.session.order_total = body.order_total;
                 req.session.save();
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error creating billing address in basket");
             }
 
         });
@@ -385,7 +385,7 @@ exports.updateBasket = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error in updating basket " + error);
             }
 
             if (body) {
@@ -394,7 +394,7 @@ exports.updateBasket = function(req) {
                 req.session.save();
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error in updating basket");
             }
 
         });
@@ -433,7 +433,7 @@ exports.createBasketPaymentInstrument = function(req, basket) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error creating PI in basket " + error);
             }
             if (body) {
                 req.session.basket_etag = response.headers.etag;
@@ -441,7 +441,7 @@ exports.createBasketPaymentInstrument = function(req, basket) {
                 req.session.save();
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error creating PI in basket ");
             }
 
         });
@@ -471,7 +471,7 @@ exports.placeOrder = function(req) {
         }, function(error, response, body) {
 
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error in placing order " + error);
             }
             if (body) {
                 //clear basket variables
@@ -480,7 +480,7 @@ exports.placeOrder = function(req) {
                 req.session.save();
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error in placing order");
             }
 
         });
@@ -495,11 +495,6 @@ exports.addPaymentInstrumentToOrder = function(order, req) {
 
         var addPaymentInstrumentUrl = util.format(add_pi_order_url, order.order_no);
 
-        /*Need to be refactored as in future multiple PI can be present in order
-        var existingPaymentObj = order.payment_instruments[0];
-        paymentObj.amount = existingPaymentObj.amount
-        paymentObj.payment_card = existingPaymentObj.payment_card;
-        paymentObj.payment_method_id = existingPaymentObj.payment_method_id;*/
 
         var paymentObj = {};
         paymentObj.amount = order.order_total;
@@ -513,8 +508,6 @@ exports.addPaymentInstrumentToOrder = function(order, req) {
         paymentObj.payment_card.expiration_month = parseInt(req.body['payment-month']);
         paymentObj.payment_card.expiration_year = parseInt(req.body['payment-year']);
 
-        debugger;
-
         request({
 
             url: addPaymentInstrumentUrl,
@@ -526,15 +519,15 @@ exports.addPaymentInstrumentToOrder = function(order, req) {
             method: 'POST',
             json: paymentObj
         }, function(error, response, body) {
-            debugger;
+
             if (error) {
-                reject("Error adding product to basket " + error);
+                reject("Error adding PI to Order " + error);
             }
             if (body) {
                 console.log(body)
                 resolve(body);
             } else {
-                reject("Error adding product to basket");
+                reject("Error adding PI to Order ");
             }
 
         });
