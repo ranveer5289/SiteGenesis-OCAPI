@@ -6,6 +6,9 @@ This is a very basic implementation of SiteGenesis using OCAPI provided by Deman
 HTML templates present **/views/** folder are used just to render the data and templates are taken from various sites which provide free html/css templates.
 
 
+In order to change order status of newly placed order to **New, Confirmed, Ready For Export**, please see code present in `dwre-hooks` folder and see hooks implementation in OCAPI DWRE documentation.
+
+
 **Category** **Landing** **Page**
 
 ![alt tag](https://raw.githubusercontent.com/ranveer5289/SiteGenesis-OCAPI/master/repoimages/CLP.png)
