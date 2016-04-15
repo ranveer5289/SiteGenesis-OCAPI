@@ -1,7 +1,9 @@
 # SiteGenesis-OCAPI
 Demandware SiteGenesis using OCAPI and ExpressJS framework
 
-This is a very basic implementation of SiteGenesis using OCAPI provided by Demandware. It contains many bugs and project is developed as proof-of-concept that complete checkout can be achieved by OCAPI
+This is a very basic implementation of SiteGenesis using OCAPI provided by Demandware. It contains many bugs and project is developed as proof-of-concept that complete checkout can be achieved by OCAPI.
+
+HTML templates present **/views/** folder are used just to render the data and templates are taken from various sites which provide free html/css templates.
 
 
 **Category** **Landing** **Page**
