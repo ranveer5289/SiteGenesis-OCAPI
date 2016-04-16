@@ -19,6 +19,11 @@ var product = require('./product');
 var util = require('util');
 var Promise = require('bluebird');
 
+/**
+ * Creates a new basket.
+ * @param  {Object} Current Request
+ * @return {Object} Basket Instance
+ */
 exports.createBasket = function(req) {
 
     //If basket_id not present in session, create new basket
@@ -39,6 +44,11 @@ exports.createBasket = function(req) {
     }
 };
 
+/**
+ * Inner helper method which will create the basket by making OCAPI call
+ * @param  {String} JWT Authentication token
+ * @param  {Object} Current Request
+ */
 exports.createBasketHelper = function(jwtToken, req) {
 
     return new Promise(function(resolve, reject) {
@@ -70,6 +80,11 @@ exports.createBasketHelper = function(jwtToken, req) {
 
 };
 
+/**
+ * Gets the current basket
+ * @param  {Object} Current Request
+ * @return {Object} Current Basket
+ */
 exports.getBasket = function(req) {
 
     return new Promise(function(resolve, reject) {
@@ -90,6 +105,7 @@ exports.getBasket = function(req) {
                 reject("Error Fetching Basket " + error);
             }
             if (body) {
+                //Update etag
                 req.session.basket_etag = response.headers.etag;
                 //manually save session
                 req.session.save();
@@ -102,6 +118,11 @@ exports.getBasket = function(req) {
     });
 };
 
+/**
+ * Add product to basket
+ * @param {Object} Product Object
+ * @param {Object} Current Request
+ */
 exports.addProductToBasket = function(productObj, req) {
 
     return new Promise(function(resolve, reject) {
@@ -135,6 +156,11 @@ exports.addProductToBasket = function(productObj, req) {
     });
 };
 
+/**
+ * Parse the basket response and build a custom object to display on storefront
+ * @param  {Object} Basket Instance
+ * @return {Object} Parsed Basket Object
+ */
 exports.getBasketObject = function(basket) {
 
     var basketObj = {};
@@ -196,13 +222,18 @@ exports.getBasketObject = function(basket) {
 };
 
 
+/**
+ * Remove product from cart
+ * @param  {Object} Current Request
+ * @return {Object} Updated Basket instance
+ */
 exports.removeProductFromBasket = function(req) {
 
     return new Promise(function(resolve, reject) {
 
         var basketId = req.session.basket_id;
         var pid = req.query.pid;
-        var itemId = req.query.itemId;
+        var itemId = req.query.itemId; //Unique UUID
         var removeProductFromCartUrl = util.format(remove_product_from_cart, basketId, itemId);
 
         var productObj = {};
@@ -234,6 +265,11 @@ exports.removeProductFromBasket = function(req) {
     });
 };
 
+/**
+ * Create a new shipment
+ * @param  {Object} Current Request
+ * @return {Object} Updated basket instance
+ */
 exports.createShipment = function(req) {
 
     return new Promise(function(resolve, reject) {
@@ -282,6 +318,11 @@ exports.createShipment = function(req) {
 
 };
 
+/**
+ * Update the default shipment with shipping address
+ * @param  {Object} Current Request
+ * @return {Object} Updated basket instance
+ */
 exports.updateDefaultShipment = function(req) {
 
     return new Promise(function(resolve, reject) {
@@ -323,6 +364,11 @@ exports.updateDefaultShipment = function(req) {
 
 };
 
+/**
+ * Create a new billing address
+ * @param  {Object} Current Request
+ * @return {Object} Updated Basket instance
+ */
 exports.createBillingAddress = function(req) {
 
     return new Promise(function(resolve, reject) {
@@ -348,6 +394,7 @@ exports.createBillingAddress = function(req) {
                 reject("Error creating billing address in basket " + error);
             }
             if (body) {
+                //save require data in session
                 req.session.order_total = body.order_total;
                 req.session.save();
                 resolve(body);
@@ -360,6 +407,11 @@ exports.createBillingAddress = function(req) {
 
 };
 
+/**
+ * Updates the basket instance with required data
+ * @param  {Object} Current Request
+ * @return {Object} Updated basket instance
+ */
 exports.updateBasket = function(req) {
     return new Promise(function(resolve, reject) {
 
@@ -401,6 +453,12 @@ exports.updateBasket = function(req) {
     });
 };
 
+/**
+ * Add new payment method & instrument to existing basket
+ * @param  {Object} Current Request
+ * @param  {Object} Current Basket Instance
+ * @return {Object} Updated basket instance
+ */
 exports.createBasketPaymentInstrument = function(req, basket) {
 
     console.log(req.session.order_total);
@@ -408,6 +466,8 @@ exports.createBasketPaymentInstrument = function(req, basket) {
 
         var basketId = req.session.basket_id;
         var createPaymentInstrumentUrl = util.format(create_payment_instrument_url, basketId);
+
+        //Build required payment object payload
         var paymentObj = {};
         paymentObj.amount = req.session.order_total; //saved in session as for unknown reasons basket.order_total is undefined
         paymentObj.payment_method_id = config.paymentmethodid;
@@ -448,6 +508,11 @@ exports.createBasketPaymentInstrument = function(req, basket) {
     });
 };
 
+/**
+ * Submits an Order
+ * @param  {Object} Current Request
+ * @return {Object} Newly created order
+ */
 exports.placeOrder = function(req) {
 
 
@@ -488,6 +553,11 @@ exports.placeOrder = function(req) {
 };
 
 
+/**
+ * Adds payment instrument to Order
+ * @param {Object} Current Order
+ * @param {Object} Current Request
+ */
 exports.addPaymentInstrumentToOrder = function(order, req) {
 
 
@@ -495,7 +565,7 @@ exports.addPaymentInstrumentToOrder = function(order, req) {
 
         var addPaymentInstrumentUrl = util.format(add_pi_order_url, order.order_no);
 
-
+        //Build required payment object payload
         var paymentObj = {};
         paymentObj.amount = order.order_total;
         paymentObj.payment_method_id = config.paymentmethodid;

@@ -8,6 +8,11 @@ var util = require('util');
 var Promise = require('bluebird');
 
 
+/**
+ * Get Category Object for the supplied cgid
+ * @param  {String} CategoryId
+ * @return {Array}  Returns  Category Object
+ */
 exports.getOnlineCategories = function(cgid) {
 
     var searchShowUrl = util.format(category_url, cgid);
@@ -34,6 +39,10 @@ exports.getOnlineCategories = function(cgid) {
     });
 };
 
+/**
+ * @param  {String} categoryId
+ * @return {Object} Category Object
+ */
 exports.getCategoryObject = function(cgid) {
 
     var searchShowUrl = util.format(category_url, cgid);
@@ -60,6 +69,10 @@ exports.getCategoryObject = function(cgid) {
 
 };
 
+/**
+ * @param  {String} categoryId
+ * @return {Array} Products assigned to a category
+ */
 exports.getProductsAssignedToCategory = function(cgid) {
 
     var searchShowUrl = util.format(product_search_url, cgid);

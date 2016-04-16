@@ -5,8 +5,11 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 
 
+//Serve static content like CSS/JS
 app.use(express.static('public'));
 //app.use('/scripts', express.static(__dirname + '/node_modules/swig/dist/'));
+
+
 app.use(session({
     secret:'somesecrettokenhere',
     resave: true,
@@ -18,7 +21,10 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true })); // support encoded bodies
 
 
+//Call router
 require('./router/main')(app);
+
+//Swig Template engine
 app.engine('html', swig.renderFile);
 app.set('view engine', 'html');
 app.set('views',__dirname + '/views');

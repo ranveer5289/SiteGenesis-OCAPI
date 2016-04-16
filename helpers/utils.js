@@ -2,6 +2,10 @@ var config = require("../ocapiconfig");
 var customer_auth_url = config.httpshost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/customers/auth?client_id=" + config.clientid;
 var request = require('request');
 
+/**
+ * Makes OCAPI call to get new JWT token required for authentication
+ * @return {String} JWT Token
+ */
 exports.getJWTToken = function() {
 
     return new Promise(function(resolve, reject) {
@@ -26,6 +30,11 @@ exports.getJWTToken = function() {
     });
 };
 
+/**
+ * Returns a address object constructed from req
+ * @param  {Object} Current Request
+ * @return {Object} Address Object
+ */
 exports.getAddress = function(req) {
 
     var address = {};

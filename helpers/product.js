@@ -6,6 +6,11 @@ var Promise = require('bluebird');
 var category = require('./category');
 var product_url = config.httphost + '/s/' + config.siteid + "/dw/shop/v" + config.ocapiversion + "/products/%s?format=json&expand=images,prices,variations&client_id=" + config.clientid;
 
+/**
+ * Gets Product Object
+ * @param  {String} pid ProductId
+ * @return {Array} Array containing product & variant Object
+ */
 exports.getProductObject = function(pid) {
     var productShowUrl = util.format(product_url, pid);
     return new Promise(function(resolve, reject) {
@@ -37,6 +42,11 @@ exports.getProductObject = function(pid) {
 
 };
 
+/**
+ * Gets variant Object
+ * @param  {Object} variantObject - Object having variant data
+ * @return {Array} Array containing variant information
+ */
 exports.getVariantValues = function(variantObject) {
 
     var colorVariantValues = [];
@@ -69,6 +79,11 @@ exports.getVariantValues = function(variantObject) {
     return [variantValues, sizeVariantValues, colorVariantValues];
 };
 
+/**
+ * Gets product images
+ * @param  {Object} productObject - Product Object
+ * @return {Object} Object having image details
+ */
 exports.getProductImages = function(productObject) {
 
     var productImages = {};
@@ -86,6 +101,11 @@ exports.getProductImages = function(productObject) {
     return productImages;
 };
 
+/**
+ * Product Images
+ * @param  {Object} Image Object
+ * @return {Array} Array having images
+ */
 exports.getImages = function(imageObject) {
     var imageArray = [];
     var images = imageObject.images;
