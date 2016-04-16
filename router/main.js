@@ -5,6 +5,8 @@ var cart = require("./../helpers/cart.js");
 var Promise = require('bluebird');
 
 module.exports = function(app) {
+
+    //Show CLP page
     app.get('/', function(req, res) {
         category.getOnlineCategories("root").then(function(categories) {
             req.session.categories = categories;
@@ -16,6 +18,7 @@ module.exports = function(app) {
         });
     });
 
+    //Show CLP page for a particular category id
     app.get('/SearchShow', function(req, res) {
 
         var cgid = req.query.cgid;
@@ -44,7 +47,7 @@ module.exports = function(app) {
     });
 
 
-
+    //Show PDP page
     app.get('/ProductShow', function(req, res) {
 
         var pid = req.query.pid;
@@ -68,12 +71,14 @@ module.exports = function(app) {
             });
     });
 
+    //Add product to basket
     app.post('/addProductToBasket', function(req, res) {
 
         var productObject = {};
         productObject.product_id = req.body.product_id;
         productObject.quantity = req.body.quantity;
 
+        //Create basket & add product to cart
         cart.createBasket(req).then(function() {
             cart.addProductToBasket(productObject, req).then(function() {
                 res.setHeader('Content-Type', 'application/json');
@@ -91,9 +96,12 @@ module.exports = function(app) {
         });
     });
 
+    //Show Cart Page
     app.get('/CartShow', function(req, res) {
 
         var action = req.query.action;
+
+        //If action is 'remove', delete product from Cart
         if (action === 'remove') {
 
             cart.removeProductFromBasket(req).then(function(basket) {
@@ -107,7 +115,7 @@ module.exports = function(app) {
                 console.log(error);
             });
 
-        } else {
+        } else { //Display Cart Page
             cart.getBasket(req).then(function(basket) {
                 return cart.getBasketObject(JSON.parse(basket));
             }).then(function(basketObj) {
@@ -123,7 +131,9 @@ module.exports = function(app) {
     });
 
 
+    //Show Shipping Address Page
     app.get('/Shipping', function(req, res) {
+
         cart.getBasket(req).then(function(basket) {
             return cart.getBasketObject(JSON.parse(basket));
         }).then(function(basketObj) {
@@ -135,12 +145,14 @@ module.exports = function(app) {
         });
     });
 
-
+    //Show Billing Page
     app.post('/Billing', function(req, res) {
 
         cart.getBasket(req).then(function(basket) {
+            //Update basket with customer email
             return cart.updateBasket(req);
         }).then(function() {
+            //Update default shipment with address
             return cart.updateDefaultShipment(req);
         }).then(function(basket) {
             return cart.getBasketObject(basket);
@@ -153,9 +165,11 @@ module.exports = function(app) {
         });
     });
 
-
+    //Show Payment Section
     app.post('/Payment', function(req, res) {
+
         cart.getBasket(req).then(function(basket) {
+            //Update basket with billing address
             return cart.createBillingAddress(req);
         }).then(function(basket) {
             return cart.getBasketObject(basket);
@@ -168,10 +182,14 @@ module.exports = function(app) {
         });
     });
 
+    //Place Order
     app.post('/Submit', function(req, res) {
+
         cart.getBasket(req).then(function(basket) {
+            //Add payment instrument to basket
             return cart.createBasketPaymentInstrument(req, basket);
         }).then(function() {
+            //Place order call
             return cart.placeOrder(req);
         }).then(function(order) {
             res.render('confirmation', {
