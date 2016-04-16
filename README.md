@@ -8,6 +8,24 @@ HTML templates present **/views/** folder are used just to render the data and t
 
 In order to change order status of newly placed order to **New, Confirmed, Ready For Export**, please see code present in `dwre-hooks` folder and see hooks implementation in OCAPI DWRE documentation.
 
+**Sample** **Config** **File**
+
+```javascript
+//ocapiconfig.js
+var config = {};
+
+config.httphost = "http://xxx.yyy.xxx.demandware.net";
+config.httpshost = "https://xxx.yyy.xxx.demandware.net";
+config.siteid = "SiteGenesis";
+config.ocapiversion = "16_3";
+config.clientid = "your_client_id";
+
+config.paymentmethodid = "CREDIT_CARD";
+config.defaultshippingmethodid = "001";
+
+module.exports = config;
+```
+
 
 **Category** **Landing** **Page**
 
