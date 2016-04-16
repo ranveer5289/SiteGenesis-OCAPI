@@ -210,7 +210,9 @@ exports.getBasketObject = function(basket) {
                     //If promise resolved, get images
                     var imageObject = product.getProductImages(productObj[0]);
                     var smallImage = imageObject.small;
-                    basketObj.products[productId].productImageSrc = smallImage[0];
+                    if (typeof smallImage !== "undefined" && smallImage.length > 0)  {
+                        basketObj.products[productId].productImageSrc = smallImage[0];
+                    }
                 })
             );
         });
