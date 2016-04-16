@@ -97,11 +97,11 @@ module.exports = function(app) {
         if (action === 'remove') {
 
             cart.removeProductFromBasket(req).then(function(basket) {
-                cart.getBasketObject(basket).then(function(basketObj) {
-                    res.render('cart', {
-                        basket: basketObj,
-                        products: basketObj.products
-                    });
+                return cart.getBasketObject(basket);
+            }).then(function(basketObj) {
+                res.render('cart', {
+                    basket: basketObj,
+                    products: basketObj.products
                 });
             }).catch(function(error) {
                 console.log(error);
@@ -109,11 +109,11 @@ module.exports = function(app) {
 
         } else {
             cart.getBasket(req).then(function(basket) {
-                cart.getBasketObject(JSON.parse(basket)).then(function(basketObj) {
-                    res.render('cart', {
-                        basket: basketObj,
-                        products: basketObj.products
-                    });
+                return cart.getBasketObject(JSON.parse(basket));
+            }).then(function(basketObj) {
+                res.render('cart', {
+                    basket: basketObj,
+                    products: basketObj.products
                 });
             }).catch(function(error) {
                 console.log(error);
@@ -122,42 +122,46 @@ module.exports = function(app) {
 
     });
 
+
     app.get('/Shipping', function(req, res) {
         cart.getBasket(req).then(function(basket) {
-            cart.getBasketObject(JSON.parse(basket)).then(function(basketObj) {
-                res.render('shipping', {
-                    basket: basketObj
-                });
+            return cart.getBasketObject(JSON.parse(basket));
+        }).then(function(basketObj) {
+            res.render('shipping', {
+                basket: basketObj
             });
         }).catch(function(error) {
             console.log(error);
         });
     });
 
+
     app.post('/Billing', function(req, res) {
+
         cart.getBasket(req).then(function(basket) {
-            cart.updateBasket(req).then(function() {
-                cart.updateDefaultShipment(req).then(function(basket) {
-                    cart.getBasketObject(basket).then(function(basketObj) {
-                        res.render('billing', {
-                            basket: basketObj
-                        });
-                    });
-                });
+            return cart.updateBasket(req);
+        }).then(function() {
+            return cart.updateDefaultShipment(req);
+        }).then(function(basket) {
+            return cart.getBasketObject(basket);
+        }).then(function(basketObj) {
+            res.render('billing', {
+                basket: basketObj
             });
         }).catch(function(error) {
             console.log(error);
         });
     });
+
 
     app.post('/Payment', function(req, res) {
         cart.getBasket(req).then(function(basket) {
-            cart.createBillingAddress(req).then(function(basket) {
-                cart.getBasketObject(basket).then(function(basketObj) {
-                    res.render('payment', {
-                        basket: basketObj
-                    });
-                });
+            return cart.createBillingAddress(req);
+        }).then(function(basket) {
+            return cart.getBasketObject(basket);
+        }).then(function(basketObj) {
+            res.render('payment', {
+                basket: basketObj
             });
         }).catch(function(error) {
             console.log(error);
@@ -166,12 +170,12 @@ module.exports = function(app) {
 
     app.post('/Submit', function(req, res) {
         cart.getBasket(req).then(function(basket) {
-            cart.createBasketPaymentInstrument(req, basket).then(function() {
-                cart.placeOrder(req).then(function(order) {
-                    res.render('confirmation', {
-                        order: order
-                    });
-                });
+            return cart.createBasketPaymentInstrument(req, basket);
+        }).then(function() {
+            return cart.placeOrder(req);
+        }).then(function(order) {
+            res.render('confirmation', {
+                order: order
             });
         }).catch(function(error) {
             console.log(error);
