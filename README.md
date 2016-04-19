@@ -5,6 +5,9 @@ This is a very basic implementation of SiteGenesis using OCAPI provided by Deman
 
 HTML templates present **/views/** folder are used just to render the data and templates are taken from various sites which provide free html/css templates.
 
+App Hosted on Heroku : http://sitegenesis-ocapi.herokuapp.com
+
+I use a free version of heroku so please expect some downtime :)
 
 In order to change order status of newly placed order to **New, Confirmed, Ready For Export**, please see code present in `dwre-hooks` folder and see hooks implementation in OCAPI DWRE documentation.
 
