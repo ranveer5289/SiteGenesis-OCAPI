@@ -33,6 +33,6 @@ swig.setDefaults({ cache: false });
 //Skip SSL certificate match
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 
-var server = app.listen(3000, function(){
+var server = app.listen(process.env.PORT || 3000, function(){
 	console.log("Server started at port 3000");
 });
