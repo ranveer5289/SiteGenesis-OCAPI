@@ -5,7 +5,7 @@ This is a very basic implementation of SiteGenesis using OCAPI provided by Deman
 
 HTML templates present **/views/** folder are used just to render the data and templates are taken from various sites which provide free html/css templates.
 
-App Hosted on Heroku : http://sitegenesis-ocapi.herokuapp.com
+App Hosted on Heroku : http://sitegenesis-ocapi.herokuapp.com (not maintained)
 
 I use a free version of heroku so please expect some downtime :)
 
